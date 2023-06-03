@@ -45,12 +45,21 @@ function laporan_data(laporan_value){
 
                 <tr>
                     <td><label for="status-penanganan">Status Penanganan</label></td>
-                    <td>: <input type="text" id="status-penanganan" name="status-penanganan" value="${laporan_values.status_penanganan}"></td>
+                    <td>: <select name="status-penanganan" id="status-penanganan" value="${laporan_values.status_penanganan}">
+                            <option value="belum ditangani">Belum ditangani</option>
+                            <option value="sedang ditangani">Sedang ditangani</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                    </td>
                 </tr>
 
                 <tr>
                     <td><label for="status-laporan">Status Laporan</label></td>
-                    <td>: <input type="text" id="status-laporan" name="status-laporan" value="${laporan_values.status_laporan}"></td>
+                    <td>: <select name="status-laporan" id="status-laporan" value="${laporan_values.status_laporan}">
+                            <option value="disapprove">Disapprove</option>
+                            <option value="approve">Approve</option>
+                        </select>
+                    </td>
                 </tr>
 
                 <tr>
