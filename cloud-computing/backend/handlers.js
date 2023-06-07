@@ -18,7 +18,11 @@ const getAllReportsByUser = (req, res) => {
     const { id } = req.params;
     const query = `SELECT laporan.id, laporan.lokasi, laporan.keterangan, laporan.foto, laporan.status_penanganan, laporan.status_laporan, laporan.tingkat_kerusakan, laporan.tanggal_buat, laporan.tanggal_edit, users.nama as pelapor FROM laporan JOIN users ON laporan.user_id = users.id WHERE users.id= ${id};`;
     db.query(query, (error, result) => {
-        if (error) throw response(500, "Invalid", "Error", res);
+        if (error) {
+            console.error(error);
+            response(500, "Invalid", "Error", res);
+            return;
+        }
         if (result[0] !== undefined){
             response(200, result, "success", res);
         } else {
@@ -32,7 +36,11 @@ const getDetailReport = (req, res) => {
     const { id } = req.params;
     const query = `SELECT laporan.id, laporan.lokasi, laporan.keterangan, laporan.foto, laporan.status_penanganan, laporan.status_laporan, laporan.tingkat_kerusakan, laporan.tanggal_buat, laporan.tanggal_edit, users.nama as pelapor FROM laporan JOIN users ON laporan.user_id = users.id WHERE laporan.id= ${id};`;
     db.query(query, (error, result) => {
-        if (error) throw response(500, "Invalid", "Error", res);
+        if (error) {
+            console.error(error);
+            response(500, "Invalid", "Error", res);
+            return;
+        }
         if (result[0] !== undefined){
             response(200, result, "success", res);
         } else {
@@ -43,13 +51,17 @@ const getDetailReport = (req, res) => {
 
 // Update report based on report id
 const updateReport = (req, res) => {
-    const tanggal_edit = new Date().toISOString();
+    const tanggal_edit = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const { id } = req.params;
     const { lokasi, keterangan, foto, status_penanganan, status_laporan, tingkat_kerusakan} = req.body
     const query = `UPDATE laporan SET lokasi = '${lokasi}', tanggal_edit = '${tanggal_edit}', foto = '${foto}', keterangan = '${keterangan}', status_penanganan = '${status_penanganan}', status_laporan = '${status_laporan}', tingkat_kerusakan = '${tingkat_kerusakan}' WHERE id = ${id}`;
     
     db.query(query, (error, result) => {
-        if (error) throw response(500, "Invalid", "Error", res);
+        if (error) {
+            console.error(error);
+            response(500, "Invalid", "Error", res);
+            return;
+        }
         if (result?.affectedRows){
             const data = {
                 isSuccess: result.affectedRows,
@@ -68,7 +80,11 @@ const deleteReport = (req, res) => {
     const query = `DELETE FROM laporan WHERE id = ${id};`;
 
     db.query(query, (error, result) => {
-        if (error) throw response(500, "Invalid", "Error", res);
+        if (error) {
+            console.error(error);
+            response(500, "Invalid", "Error", res);
+            return;
+        }
         if (result?.affectedRows){
             const data = {
                 isDeleted: result.affectedRows,
@@ -87,7 +103,11 @@ const createReport = (req, res) => {
     const query = `INSERT INTO laporan (lokasi, keterangan, foto, status_penanganan, status_laporan, tingkat_kerusakan, user_id) VALUES ('${lokasi}', '${keterangan}', '${foto}', '${status_penanganan}', '${status_laporan}', '${tingkat_kerusakan}', ${user_id});`;
     
     db.query(query, (error, result) => {
-        if (error) throw response(500, "Invalid", "Error", res);
+        if (error) {
+            console.error(error);
+            response(500, "Invalid", "Error", res);
+            return;
+        }
         if (result?.affectedRows){
             const data = {
                 isSuccess: result.affectedRows,
@@ -106,7 +126,11 @@ const createUser = (req, res) => {
     const query = `INSERT INTO users (nama, email, password, role) VALUES ('${nama}', '${email}', '${password}', '${role}');`;
     
     db.query(query, (error, result) => {
-        if (error) throw response(500, "Invalid", "Error", res);
+        if (error) {
+            console.error(error);
+            response(500, "Invalid", "Error", res);
+            return;
+        }
         if (result?.affectedRows){
             const data = {
                 isSuccess: result.affectedRows,
