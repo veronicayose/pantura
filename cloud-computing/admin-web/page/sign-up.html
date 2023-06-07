@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="../assets/styles/style.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #537188;
+    }
+
+    .header-box {
+      width: 320px;
+      margin: 0 auto;
+      padding: 10px;
+      background-color: #CBB279;
+      text-align: center;
+    }
+
+    .register-box {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #EEEEEE;
+      text-align: center;
+    }
+    
+    .header-box h1 {
+      color: #537188;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    
+    .register-box input[type="text"],
+    .register-box input[type="password"],
+    .register-box input[type="email"] {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    .register-box button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #CBB279;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="header-box">
+      <h1>SIGN UP</h1>
+    </div>
+    <div class="register-box">
+      <form action="">
+        <input type="text" name="name" placeholder="Nama" required>
+        <br>
+        <input type="email" name="email" placeholder="Email" required>
+        <br>
+        <input type="password" name="password" placeholder="Password" required>
+        <br>
+        <input type="password" name="retype pass" placeholder="Ketik Ulang Password" required>
+        <button id="button-1" type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

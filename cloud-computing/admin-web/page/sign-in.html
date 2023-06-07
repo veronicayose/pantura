@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign In</title>
+  <link rel="stylesheet" href="../assets/styles/style.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #537188 ;
+    }
+
+    .header-box{
+        width: 320px;
+        margin: 0 auto;
+        padding: 10px;
+        background-color: #CBB279;
+        text-align: center;
+    }
+
+    .login-box {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #EEEEEE;
+      /* border-radius: 5px; */
+      text-align: center;
+    }
+    
+    .header-box h1 {
+        color: #537188;
+        font-size: 2.5rem;
+        margin: 0;
+    }
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #CBB279;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="header-box">
+        <h1>SIGN IN</h1>
+      </div>
+      <div class="login-box">
+        <form action="">
+          <input type="text" name="email" placeholder="Email" required>
+          <br>
+          <input type="password" name="password" placeholder="Password" required>
+          <br>
+          <button id="button-1" type="submit">Login</button>
+        </form>
+      </div>
+  </div>
+  
+</body>
+</html>
