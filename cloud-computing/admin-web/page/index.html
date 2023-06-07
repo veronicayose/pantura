@@ -17,12 +17,19 @@
     <h1 id="page-title">Laporan</h1>
 
     <div id="search">
-        <section id="search-form">
+        <section class="search-form">
             <form action="">
-                <input id="search-input" type="text">
-                <button id="search-filter-button" type="submit"><i class="material-symbols-outlined">search</i></button>
-                <button id="search-filter-button"><i class="material-symbols-outlined">filter_alt</i></button>
+                <input id="search-input" type="text" name="search">
+                <button class="search-filter-btn" type="submit"><i class="material-symbols-outlined">search</i></button>
             </form>
+            <form action="" class="dropdown">
+                <button class="search-filter-btn"><i class="material-symbols-outlined">filter_alt</i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a>Status Penanganan</a>
+                    <a>Status Laporan</a>
+                    <a>Tingkat Kerusakan</a>
+                </div>
+              </form>
         </section>
     </div>
 
