@@ -1,61 +1,60 @@
-const list_container = document.getElementById("content");
-const list_value = [
-    {
-        gambar: '../assets/images/jalan_rusak.jpg',
-        pelapor: 'John Doe',
-        lokasi: '0.5284080788324474, 101.443372...',
-        status_penanganan: 'done',
-        tanggal: '23/05/2023',
-    },
-    {
-        gambar: '../assets/images/jalan_rusak.jpg',
-        pelapor: 'John Doe',
-        lokasi: '0.5284080788324474, 101.443372...',
-        status_penanganan: 'done',
-        tanggal: '23/05/2023',
-    },
-    {
-        gambar: '../assets/images/jalan_rusak.jpg',
-        pelapor: 'John Doe',
-        lokasi: '0.5284080788324474, 101.443372...',
-        status_penanganan: 'done',
-        tanggal: '23/05/2023',
-    }
-]
+let list_container = document.getElementById("content");
+let arr = [];
+let url;
 
-function reportList(list_value){
-    return "<section id=\"card\">" + list_value.map(list_values => `
+const urlParams = new URLSearchParams(window.location.search);
+const searchParams = urlParams.get('search');
+
+if (searchParams === null || searchParams === ""){
+    url ='http://localhost:5000/report/';
+} else {
+    url ='http://localhost:5000/report/search/'.concat(searchParams);
+}
+fetch(url)
+.then((response) => response.json())
+.then((data) => {
+    for (let i = 0; i < data.datas.length; i++){
+        arr.push(data.datas[i]);
+    };
+    reportList(arr);
+    list_container.innerHTML= reportList(arr);
+});
+
+
+function reportList(arr){
+    return "<section id=\"card\">" + arr.map(list_values => `
     <div class="list-card-box">
-        <div>
-            <img src="${list_values.gambar}">
-        </div>
-        <div style="margin-left: 20px">
-            <table>
-                <tr>
-                    <td>Pelapor</td>
-                    <td>:</td>
-                    <td>${list_values.pelapor}</td>
-                </tr>
-                <tr>
-                    <td>Lokasi</td>
-                    <td>:</td>
-                    <td>${list_values.lokasi}</td>
-                </tr>
-                <tr>
-                    <td>Status Penanganan</td>
-                    <td>:</td>
-                    <td>${list_values.status_penanganan}</td>
-                </tr>
-            </table>
+        <div class="list-child-card-box">
+            <div>
+                <img src="${list_values.foto}">
+            </div>
+            <div style="margin-left: 20px">
+                <table>
+                    <tr>
+                        <td>Pelapor</td>
+                        <td>:</td>
+                        <td>${list_values.pelapor}</td>
+                    </tr>
+                    <tr>
+                        <td>Lokasi</td>
+                        <td>:</td>
+                        <td>${list_values.lokasi}</td>
+                    </tr>
+                    <tr>
+                        <td>Status Penanganan</td>
+                        <td>:</td>
+                        <td>${list_values.status_penanganan}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div style="margin-left: 20px">
             <p>Tanggal: ${list_values.tanggal}</p>
             <div id="list-button">
-                <a id="button-2" href="./detail.html">Lihat Detail</a>
-                <a id="button-1" href="./edit.html">Ubah Laporan</a>
+                <a id="button-2" href="./detail.html?id=${list_values.id}">Lihat Detail</a>
+                <a id="button-1" href="./edit.html?id=${list_values.id}">Ubah Laporan</a>
             </div>
         </div>
     </div>`).join('') + "</section>";
 }
 
-list_container.innerHTML= reportList(list_value);
