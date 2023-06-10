@@ -1,17 +1,16 @@
 const laporan = document.getElementById("card");
-const laporan_value = [
-    {
-        gambar: '../assets/images/jalan_rusak.jpg',
-        pelapor: 'John Doe',
-        lokasi: '0.5284080788324474, 101.443372...',
-        keterangan: 'lorem ipsum',
-        tingkat_kerusakan: 'sedang',
-        status_penanganan: 'done',
-        status_laporan: 'approve',
-        tanggal_laporan: '23/05/2023',
-        tanggal_edit: '23/05/2023',
-    }
-]
+const urlParams = new URLSearchParams(window.location.search);
+const idDetails = urlParams.get('id');
+let arr = [];
+const url = 'http://localhost:5000/report/'.concat(idDetails);
+
+fetch(url)
+.then((response) => response.json())
+.then((data) => {
+    arr.push(data.datas[0]);
+    laporan_data(arr);
+    laporan.innerHTML= laporan_data(arr);
+});
 
 function laporan_data(laporan_value){
     return "<article id=\"card-box\">" + laporan_value.map(laporan_values => `
@@ -40,7 +39,7 @@ function laporan_data(laporan_value){
                 
                 <tr>
                     <td><label for="foto">Foto</label></td>
-                    <td>: <input type="text" id="foto" name="foto" value="${laporan_values.gambar}" disabled></td>
+                    <td>: <input type="text" id="foto" name="foto" value="${laporan_values.foto}" disabled></td>
                 </tr>
 
                 <tr>
@@ -71,5 +70,3 @@ function laporan_data(laporan_value){
             </form>
         </table>`).join('') + "</article>";
     }
-
-laporan.innerHTML= laporan_data(laporan_value);
