@@ -3,6 +3,7 @@
 <head>
   <title>Sign In</title>
   <link rel="stylesheet" href="../assets/styles/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -65,15 +66,18 @@
         <h1>SIGN IN</h1>
       </div>
       <div class="login-box">
-        <form action="">
+        <form id="signin" method="post">
           <input type="text" name="email" placeholder="Email" required>
           <br>
           <input type="password" name="password" placeholder="Password" required>
           <br>
+          <input name="role" value="admin" hidden>
           <button id="button-1" type="submit">Login</button>
         </form>
+        <p>Belum punya akun?</p>
+        <a href="./sign-up.html" id="button-1">Buat Akun</a>
       </div>
   </div>
-  
+  <script src="../assets/script/sign-in.js"></script>
 </body>
 </html>
