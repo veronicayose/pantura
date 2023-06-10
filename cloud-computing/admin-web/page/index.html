@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../assets/styles/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
     <nav>
@@ -18,9 +19,9 @@
 
     <div id="search">
         <section class="search-form">
-            <form action="">
+            <form id="search-field">
                 <input id="search-input" type="text" name="search">
-                <button class="search-filter-btn" type="submit"><i class="material-symbols-outlined">search</i></button>
+                <button class="search-filter-btn" type="submit" id="submit"><i class="material-symbols-outlined">search</i></button>
             </form>
             <form action="" class="dropdown">
                 <button class="search-filter-btn"><i class="material-symbols-outlined">filter_alt</i></button>
@@ -29,12 +30,12 @@
                     <a>Status Laporan</a>
                     <a>Tingkat Kerusakan</a>
                 </div>
-              </form>
+            </form>
         </section>
     </div>
 
     <div id="content"></div>
     <script src="../assets/script/list.js"></script>
+    <script src="../assets/script/search-form.js"></script>
 </body>
-
 </html>
