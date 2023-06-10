@@ -139,6 +139,14 @@ nav > h3 {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+}
+
+.list-child-card-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
 }
 
