@@ -3,6 +3,7 @@
 <head>
   <title>Sign Up</title>
   <link rel="stylesheet" href="../assets/styles/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -58,6 +59,12 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    a {
+      text-decoration: none;
+      margin-top: 30px;
+      color: black;
+    }
   </style>
 </head>
 <body>
@@ -66,17 +73,21 @@
       <h1>SIGN UP</h1>
     </div>
     <div class="register-box">
-      <form action="">
-        <input type="text" name="name" placeholder="Nama" required>
+      <form action="http://localhost:5000/user/" method="post" id="register">
+        <input type="text" name="nama" placeholder="Nama" required>
         <br>
         <input type="email" name="email" placeholder="Email" required>
         <br>
         <input type="password" name="password" placeholder="Password" required>
         <br>
         <input type="password" name="retype pass" placeholder="Ketik Ulang Password" required>
-        <button id="button-1" type="submit">Register</button>
+        <input type="password" name="role" value="admin" hidden>
+        
+        <a href="./sign-in.html">Sudah punya akun. Sign In</a>
+        <input id="button-1" type="submit" value="Register"/>
       </form>
     </div>
   </div>
+  <script src="../assets/script/sign-up.js"></script>
 </body>
 </html>
