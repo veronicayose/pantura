@@ -9,11 +9,20 @@ const upload = multer({ storage });
 
 // Show all reports and based on search key
 const getAllReports = (req, res) => {
-    let { search } = req.body;
+    const query = `SELECT laporan.id, laporan.lokasi, laporan.keterangan, laporan.foto, laporan.status_penanganan, laporan.status_laporan, laporan.tingkat_kerusakan, laporan.tanggal_buat, laporan.tanggal_edit, users.nama as pelapor FROM laporan JOIN users ON laporan.user_id = users.id;`;
+    db.query(query, (error, result) => {
+        response(200, result, "success", res);
+    })    
+};
+
+
+// Show all report based on search key
+const getSearchReports = (req, res) => {
+    let { search } = req.params;
     if (search === undefined){
         search = "";
     }
-    const query = `SELECT laporan.id, laporan.lokasi, laporan.keterangan, laporan.foto, laporan.status_penanganan, laporan.status_laporan, laporan.tingkat_kerusakan, laporan.tanggal_buat, laporan.tanggal_edit, users.nama as pelapor FROM laporan JOIN users ON laporan.user_id = users.id WHERE laporan.lokasi LIKE "%${search}%" OR laporan.keterangan LIKE "%${search}%";`;
+    const query = `SELECT laporan.id, laporan.lokasi, laporan.keterangan, laporan.foto, laporan.status_penanganan, laporan.status_laporan, laporan.tingkat_kerusakan, laporan.tanggal_buat, laporan.tanggal_edit, users.nama as pelapor FROM laporan JOIN users ON laporan.user_id = users.id WHERE laporan.lokasi LIKE "%${search}%" OR laporan.keterangan LIKE "%${search}%" OR users.nama LIKE "%${search}%";`;
     db.query(query, (error, result) => {
         response(200, result, "success", res);
     })    
@@ -25,7 +34,6 @@ const getAllReportsByUser = (req, res) => {
     const query = `SELECT laporan.id, laporan.lokasi, laporan.keterangan, laporan.foto, laporan.status_penanganan, laporan.status_laporan, laporan.tingkat_kerusakan, laporan.tanggal_buat, laporan.tanggal_edit, users.nama as pelapor FROM laporan JOIN users ON laporan.user_id = users.id WHERE users.id= ${id};`;
     db.query(query, (error, result) => {
         if (error) {
-            console.error(error);
             response(500, "Invalid", "Error", res);
             return;
         }
@@ -77,10 +85,12 @@ const updateReport = (req, res) => {
             response(500, "Error uploading file to GCS", "Failed", res);
             return;
           }
+
+          const tanggal_edit = new Date().toISOString().slice(0, 19).replace('T', ' ');
   
           // Update the record in the database with the new image URL
-          const query = `UPDATE laporan SET lokasi = ?, keterangan = ?, foto = ?, status_penanganan = ?, status_laporan = ?, tingkat_kerusakan = ? WHERE id = ?`;
-          const values = [lokasi, keterangan, imageUrl, status_penanganan, status_laporan, tingkat_kerusakan, id];
+          const query = `UPDATE laporan SET lokasi = ?, keterangan = ?, foto = ?, status_penanganan = ?, status_laporan = ?, tingkat_kerusakan = ?, tanggal_edit = ? WHERE id = ?`;
+          const values = [lokasi, keterangan, imageUrl, status_penanganan, status_laporan, tingkat_kerusakan, tanggal_edit, id];
   
           db.query(query, values, (error, result) => {
             if (error) {
@@ -101,9 +111,10 @@ const updateReport = (req, res) => {
           });
         });
       } else {
+        
         // No file was uploaded, update the record without changing the image
-        const query = `UPDATE laporan SET lokasi = ?, keterangan = ?, status_penanganan = ?, status_laporan = ?, tingkat_kerusakan = ? WHERE id = ?`;
-        const values = [lokasi, keterangan, status_penanganan, status_laporan, tingkat_kerusakan, id];
+        const query = `UPDATE laporan SET lokasi = ?, keterangan = ?, status_penanganan = ?, status_laporan = ?, tingkat_kerusakan = ?, tanggal_edit = ? WHERE id = ?`;
+        const values = [lokasi, keterangan, status_penanganan, status_laporan, tingkat_kerusakan, tanggal_edit, id];
   
         db.query(query, values, (error, result) => {
           if (error) {
@@ -162,6 +173,8 @@ const createReport = (req, res) => {
 
     const { lokasi, keterangan, status_penanganan, status_laporan, tingkat_kerusakan, user_id } = req.body;
     const file = req.file;
+    const tanggal_buat = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const tanggal_edit = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     if (!file) {
       response(400, "No file uploaded", "Failed", res);
@@ -177,8 +190,8 @@ const createReport = (req, res) => {
       }
 
       // Insert the record into the database with the image URL
-      const query = `INSERT INTO laporan (lokasi, keterangan, foto, status_penanganan, status_laporan, tingkat_kerusakan, user_id) VALUES (?, ?, ?, ?, ?, ?, ?);`;
-      const values = [lokasi, keterangan, imageUrl, status_penanganan, status_laporan, tingkat_kerusakan, user_id];
+      const query = `INSERT INTO laporan (lokasi, keterangan, foto, status_penanganan, status_laporan, tingkat_kerusakan, user_id, tanggal_buat, tanggal_edit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+      const values = [lokasi, keterangan, imageUrl, status_penanganan, status_laporan, tingkat_kerusakan, user_id, tanggal_buat, tanggal_edit];
 
       db.query(query, values, (error, result) => {
         if (error) {
@@ -228,15 +241,13 @@ const createUser = (req, res) => {
 
 // Login Users
 const loginUser = (req, res) => {
-    const { email, password } = req.body;
-    const query = `SELECT * FROM users WHERE email LIKE "${email}" AND password LIKE "${password}";`;
+    const { email, password, role } = req.params;
+    const query = `SELECT * FROM users WHERE email LIKE "${email}" AND password LIKE "${password}" AND role LIKE "${role}";`;
     db.query(query, (error, result) => {
         if (result.length > 0){
             response(200, result, "success", res);
-            // return true;
         } else {
             response(404, "User not found", "failed", res);
-            // return false;
         }
     })
 };
@@ -252,4 +263,5 @@ export {
     createReport,
     createUser,
     loginUser,
+    getSearchReports
 }
