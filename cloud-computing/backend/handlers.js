@@ -3,18 +3,16 @@ import response from './response.js';
 import ImgUpload from './imgUpload.js'; 
 import multer from 'multer';
 
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Show all reports and based on search key
+// Show all reports
 const getAllReports = (req, res) => {
     const query = `SELECT laporan.id, laporan.lokasi, laporan.keterangan, laporan.foto, laporan.status_penanganan, laporan.status_laporan, laporan.tingkat_kerusakan, laporan.tanggal_buat, laporan.tanggal_edit, users.nama as pelapor FROM laporan JOIN users ON laporan.user_id = users.id;`;
     db.query(query, (error, result) => {
         response(200, result, "success", res);
     })    
 };
-
 
 // Show all report based on search key
 const getSearchReports = (req, res) => {
@@ -136,8 +134,6 @@ const updateReport = (req, res) => {
       }
     });
   };
-  
-  
 
 // Delete report based on report id
 const deleteReport = (req, res) => {
@@ -213,8 +209,6 @@ const createReport = (req, res) => {
     });
   });
 };
-
-
 
 // Create Users
 const createUser = (req, res) => {
