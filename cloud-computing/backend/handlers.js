@@ -213,24 +213,31 @@ const createReport = (req, res) => {
 // Create Users
 const createUser = (req, res) => {
     const { nama, email, password, role } = req.body
+    const searchQuery = `SELECT * FROM users WHERE email LIKE "${email}" AND role LIKE "${role}";`;
     const query = `INSERT INTO users (nama, email, password, role) VALUES ('${nama}', '${email}', '${password}', '${role}');`;
     
-    db.query(query, (error, result) => {
-        if (error) {
-            console.error(error);
-            response(500, "Invalid", "Error", res);
-            return;
-        }
-        if (result?.affectedRows){
-            const data = {
-                isSuccess: result.affectedRows,
-                message: result.message,
+    db.query(searchQuery, (error, result) => {
+      if (result.length > 0){
+          response(200, result, "User already has account", res);
+      } else {
+          db.query(query, (error, result) => {
+            if (error) {
+                console.error(error);
+                response(500, "Invalid", "Error", res);
+                return;
             }
-            response(200, result, "User created successfully", res);
-        } else {
-            response("404", "Failed to create user", "Failed", res);
-        }
-    });
+            if (result?.affectedRows){
+                const data = {
+                    isSuccess: result.affectedRows,
+                    message: result.message,
+                }
+                response(200, result, "User created successfully", res);
+            } else {
+                response("404", "Failed to create user", "Failed", res);
+            }
+        });
+      }
+    })
 }
 
 // Login Users
