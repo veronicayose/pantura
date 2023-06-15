@@ -8,7 +8,12 @@ form.submit(function(e) {
            data: form.serialize(), 
            success: function(data)
            {
-            window.location.href = "./index.html";
+            if (data.responseCode === 'User already has account'){
+              alert(data.responseCode);
+              window.location.href = "./sign-up.html";
+            } else {
+              window.location.href = "./index.html";
+            }
            }
          }); 
     });
