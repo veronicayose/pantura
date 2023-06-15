@@ -72,6 +72,7 @@ const updateReport = (req, res) => {
   
       const { id } = req.params;
       const { lokasi, keterangan, status_penanganan, status_laporan, tingkat_kerusakan } = req.body;
+      const tanggal_edit = new Date().toISOString().slice(0, 19).replace('T', ' ');
       const file = req.file; // Get the uploaded file
   
       // Check if a file was uploaded
@@ -83,8 +84,6 @@ const updateReport = (req, res) => {
             response(500, "Error uploading file to GCS", "Failed", res);
             return;
           }
-
-          const tanggal_edit = new Date().toISOString().slice(0, 19).replace('T', ' ');
   
           // Update the record in the database with the new image URL
           const query = `UPDATE laporan SET lokasi = ?, keterangan = ?, foto = ?, status_penanganan = ?, status_laporan = ?, tingkat_kerusakan = ?, tanggal_edit = ? WHERE id = ?`;
@@ -167,8 +166,10 @@ const createReport = (req, res) => {
       return;
     }
 
-    const { lokasi, keterangan, status_penanganan, status_laporan, tingkat_kerusakan, user_id } = req.body;
+    const { lokasi, keterangan, tingkat_kerusakan, user_id } = req.body;
     const file = req.file;
+    const status_penanganan = "belum ditangani";
+    const status_laporan = "approve";
     const tanggal_buat = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const tanggal_edit = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
@@ -186,8 +187,8 @@ const createReport = (req, res) => {
       }
 
       // Insert the record into the database with the image URL
-      const query = `INSERT INTO laporan (lokasi, keterangan, foto, status_penanganan, status_laporan, tingkat_kerusakan, user_id, tanggal_buat, tanggal_edit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-      const values = [lokasi, keterangan, imageUrl, status_penanganan, status_laporan, tingkat_kerusakan, user_id, tanggal_buat, tanggal_edit];
+      const query = `INSERT INTO laporan (lokasi, keterangan, foto, tingkat_kerusakan, status_penanganan, status_laporan, user_id, tanggal_buat, tanggal_edit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+      const values = [lokasi, keterangan, imageUrl, tingkat_kerusakan, status_penanganan, status_laporan, user_id, tanggal_buat, tanggal_edit];
 
       db.query(query, values, (error, result) => {
         if (error) {
