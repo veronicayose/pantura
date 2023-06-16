@@ -6,7 +6,7 @@ Pantura adalah aplikasi mobile bagi user untuk melakukan pelaporan terhadap jala
 
 ***
 
-# Pantura C23-PC596 Machine Learning Path
+# Pantura C23-PC596 Cloud Computing Learning Path
 Full Proyek: https://github.com/PANTURA-C23-PC596
 
 # Anggota Cloud Computing Learning Path
